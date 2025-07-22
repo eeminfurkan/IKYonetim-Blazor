@@ -60,6 +60,23 @@ namespace IKYonetim.Servisler
             _personelDeposu.Sil(id);
         }
 
+        /// <summary>
+        /// Id'ye göre tek bir personelin bilgilerini getirir.
+        /// </summary>
+        /// <param name="id">Getirilecek personelin Id'si.</param>
+        /// <returns>Personel nesnesi.</returns>
+        public Personel PersonelGetirById(int id)
+        {
+            return _personelDeposu.IdYeGoreGetir(id);
+        }
 
+        /// <summary>
+        /// Bir personelin bilgilerini günceller.
+        /// </summary>
+        /// <param name="personel">Güncellenmiş personel bilgileri.</param>
+        public void PersonelGuncelle(Personel personel)
+        {
+            _personelDeposu.Guncelle(personel);
+        }
     }
 }

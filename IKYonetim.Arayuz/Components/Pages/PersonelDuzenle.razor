@@ -1,0 +1,73 @@
+﻿@page "/personel-duzenle/{PersonelId:int}"
+
+@using IKYonetim.Varliklar
+@using IKYonetim.Servisler
+
+@inject PersonelServisi PServis
+@inject NavigationManager NavManager
+
+<h3>Personel Düzenle</h3>
+
+@if (duzenlenecekPersonel == null)
+{
+    <p><em>Personel yükleniyor...</em></p>
+}
+else
+{
+    <EditForm Model="@duzenlenecekPersonel" OnValidSubmit="@HandleGuncelle">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label class="form-label">Ad</label>
+            <InputText class="form-control" @bind-Value="duzenlenecekPersonel.Ad" />
+            <ValidationMessage For="@(() => duzenlenecekPersonel.Ad)" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Soyad</label>
+            <InputText class="form-control" @bind-Value="duzenlenecekPersonel.Soyad" />
+            <ValidationMessage For="@(() => duzenlenecekPersonel.Soyad)" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Departman</label>
+            <InputText class="form-control" @bind-Value="duzenlenecekPersonel.Departman" />
+            <ValidationMessage For="@(() => duzenlenecekPersonel.Departman)" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Pozisyon</label>
+            <InputText class="form-control" @bind-Value="duzenlenecekPersonel.Pozisyon" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">İşe Giriş Tarihi</label>
+            <InputDate class="form-control" @bind-Value="duzenlenecekPersonel.IseGirisTarihi" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Güncelle</button>
+        <a href="/personel-listesi" class="btn btn-secondary">İptal</a>
+    </EditForm>
+}
+
+@code {
+    // URL'den gelen PersonelId parametresini yakalamak için bu özelliği tanımlıyoruz.
+    [Parameter]
+    public int PersonelId { get; set; }
+
+    // Forma bağlanacak olan, bilgileri dolu Personel nesnesi.
+    private Personel duzenlenecekPersonel;
+
+    // Sayfa ilk yüklendiğinde çalışır.
+    protected override void OnInitialized()
+    {
+        // Servisi kullanarak, URL'den gelen Id'ye sahip personelin bilgilerini çekiyoruz.
+        duzenlenecekPersonel = PServis.PersonelGetirById(PersonelId);
+    }
+
+    // Form geçerli bir şekilde gönderildiğinde bu metot çalışır.
+    private void HandleGuncelle()
+    {
+        // Servis aracılığıyla personelin bilgilerini güncelliyoruz.
+        PServis.PersonelGuncelle(duzenlenecekPersonel);
+
+        // İşlem bittikten sonra kullanıcıyı personel listesi sayfasına yönlendiriyoruz.
+        NavManager.NavigateTo("/personel-listesi");
+    }
+}

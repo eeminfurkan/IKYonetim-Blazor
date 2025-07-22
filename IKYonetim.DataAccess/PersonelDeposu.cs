@@ -73,5 +73,35 @@ namespace IKYonetim.VeriErisim
                 _personeller.Remove(silinecekPersonel);
             }
         }
+
+        /// <summary>
+        /// Verilen Id'ye sahip personelin bilgilerini döndürür.
+        /// </summary>
+        /// <param name="id">Bilgileri istenen personelin Id'si.</param>
+        /// <returns>Bulunan Personel nesnesi veya bulunamazsa null.</returns>
+        public Personel IdYeGoreGetir(int id)
+        {
+            return _personeller.FirstOrDefault(p => p.Id == id);
+        }
+
+        /// <summary>
+        /// Mevcut bir personelin bilgilerini günceller.
+        /// </summary>
+        /// <param name="guncellenecekPersonel">Güncel bilgileri içeren personel nesnesi.</param>
+        public void Guncelle(Personel guncellenecekPersonel)
+        {
+            // Güncellenecek personeli listede buluyoruz.
+            var mevcutPersonel = _personeller.FirstOrDefault(p => p.Id == guncellenecekPersonel.Id);
+
+            // Eğer personel bulunduysa, bilgilerini yeni bilgilerle değiştiriyoruz.
+            if (mevcutPersonel != null)
+            {
+                mevcutPersonel.Ad = guncellenecekPersonel.Ad;
+                mevcutPersonel.Soyad = guncellenecekPersonel.Soyad;
+                mevcutPersonel.Departman = guncellenecekPersonel.Departman;
+                mevcutPersonel.Pozisyon = guncellenecekPersonel.Pozisyon;
+                mevcutPersonel.IseGirisTarihi = guncellenecekPersonel.IseGirisTarihi;
+            }
+        }
     }
 }

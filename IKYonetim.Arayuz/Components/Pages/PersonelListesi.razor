@@ -30,9 +30,11 @@ else
                     <td>@personel.Departman</td>
                     <td>@personel.Pozisyon</td>
                     <td>
+                        <a href="@($"personel-duzenle/{personel.Id}")" class="btn btn-warning">Düzenle</a>
                         <button class="btn btn-danger" @onclick="() => SilmeIsleminiBaslat(personel.Id)">Sil</button>
                     </td>
                 </tr>
+
             }
         </tbody>
     </table>
