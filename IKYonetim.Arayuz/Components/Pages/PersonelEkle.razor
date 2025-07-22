@@ -1,0 +1,59 @@
+﻿@page "/personel-ekle"
+
+@using IKYonetim.Varliklar
+@using IKYonetim.Servisler
+
+@inject PersonelServisi PServis
+@inject NavigationManager NavManager
+
+<h3>Yeni Personel Ekle</h3>
+
+<EditForm Model="@yeniPersonel" OnValidSubmit="@HandleKaydet">
+    <div class="mb-3">
+        <label for="ad" class="form-label">Ad</label>
+        <InputText id="ad" class="form-control" @bind-Value="yeniPersonel.Ad" />
+        <ValidationMessage For="@(() => yeniPersonel.Ad)" />  @* Bu satırı ekliyoruz *@
+
+    </div>
+    <div class="mb-3">
+        <label for="soyad" class="form-label">Soyad</label>
+        <ValidationMessage For="@(() => yeniPersonel.Soyad)" />  @* Bu satırı ekliyoruz *@
+        <InputText id="soyad" class="form-control" @bind-Value="yeniPersonel.Soyad" />
+    </div>
+    <div class="mb-3">
+        <label for="departman" class="form-label">Departman</label>
+        <InputText id="departman" class="form-control" @bind-Value="yeniPersonel.Departman" />
+        <ValidationMessage For="@(() => yeniPersonel.Departman)" />  @* Bu satırı ekliyoruz *@
+
+    </div>
+    <div class="mb-3">
+        <label for="pozisyon" class="form-label">Pozisyon</label>
+        <InputText id="pozisyon" class="form-control" @bind-Value="yeniPersonel.Pozisyon" />
+        <ValidationMessage For="@(() => yeniPersonel.Pozisyon)" />  @* Bu satırı ekliyoruz *@
+
+    </div>
+    <div class="mb-3">
+        <label for="isegiris" class="form-label">İşe Giriş Tarihi</label>
+        <InputDate id="isegiris" class="form-control" @bind-Value="yeniPersonel.IseGirisTarihi" />
+        <ValidationMessage For="@(() => yeniPersonel.IseGirisTarihi)" />  @* Bu satırı ekliyoruz *@
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</EditForm>
+
+
+@code {
+    // Forma bağlanacak olan, başlangıçta içi boş bir Personel nesnesi.
+    private Personel yeniPersonel = new Personel { IseGirisTarihi = DateTime.Now };
+
+    // Form geçerli bir şekilde gönderildiğinde bu metot çalışır.
+    private void HandleKaydet()
+    {
+        // Servis aracılığıyla yeni personeli ekliyoruz.
+        PServis.PersonelEkle(yeniPersonel);
+
+        // İşlem bittikten sonra kullanıcıyı personel listesi sayfasına yönlendiriyoruz.
+        NavManager.NavigateTo("/personel-listesi");
+    }
+}
