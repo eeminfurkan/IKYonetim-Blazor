@@ -7,8 +7,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddScoped<IKYonetim.Servisler.PersonelServisi>();
 // Her kullanýcýnýn kendi oturum bilgisi olacaðý için Scoped olarak ekliyoruz.
-builder.Services.AddScoped<IKYonetim.Servisler.KullaniciOturumu>();
-builder.Services.AddScoped<IKYonetim.Servisler.AuthServisi>();
+
 
 
 var app = builder.Build();
